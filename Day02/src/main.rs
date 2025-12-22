@@ -11,13 +11,15 @@ fn main() {
     let mut sum = 0;
     for i in 0..liste.len() {
         let a1 = liste[i][0];
-        let a2 = liste[i][0];
+        let a2 = liste[i][1];
 
         for i in a1..a2 + 1 {
+
             if i.to_string().len() % 2 == 0 {
                 let a = i.to_string().len() / 2;
 
-                let (g, h) = m.split_at(2);
+                let s = i.to_string();
+                let (g, h) = s.split_at(a);
 
                 if g == h {
                     sum += i;
@@ -26,14 +28,5 @@ fn main() {
         }
     }
 
-    let i = 2222;
-    let mut m = i.to_string();
-    let a = i.to_string().len() / 2;
-    let (g, h) = m.split_at(2);
-
-    println!("{} {}", g, h);
-
-    for i in 0..5 {
-        println!("{}", i);
-    }
+    println!("{}", sum);
 }
