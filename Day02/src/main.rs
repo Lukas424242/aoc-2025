@@ -45,10 +45,8 @@ fn main() {
                 .map(|x| x.to_digit(10).unwrap() as u8)
                 .collect();
 
-            // welche Vielfachen müssen wir bestimmen
-            // alle zwei, drei usw.
-            for j in 0..a.len() - 1 {
-                let a1 = j + 1;
+            'fucked: for j in 0..a.len() - 1 {
+                let a1 = j +1;
 
                 if a.len() % a1 == 0 {
                     let mut list: HashSet<Vec<u8>> = HashSet::new();
@@ -70,8 +68,10 @@ fn main() {
                     let mut liste: Vec<u8> = Vec::new();
                     for k in 0..a.len() {
                         if k as u8 == begins[current] {
-                            list.insert(liste.clone());
-                            list.clear();
+                            if !liste.is_empty() {
+                                list.insert(liste.clone());
+                                liste.clear();
+                            }
                             liste.push(a[k]);
 
                             if current < begins.len() - 1 {
@@ -81,24 +81,27 @@ fn main() {
                             liste.push(a[k]);
                         }
                     }
+                    list.insert(liste.clone());
 
                     if list.len() == 1 {
                         sum += i;
+                        println!("{}", i);
+                        break 'fucked;
                     }
                 }
             }
+            let ö =0;
+
+
         }
     }
 
+    println!("{}", sum);
+
     // test
 
-    // welche Vielfachen müssen wir bestimmen
-    // alle zwei, drei usw.
-
-    let a = vec![1,1,8,8,5,1,1,8,8,5];
-    let a = vec![1,1,8,8,5,1,1,8,8,5];
-
-    for j in 0..a.len() - 2 {
+    let a = vec![1,2,2,7,7,7,5,5,5,4];
+    'fucked: for j in 0..a.len() - 2 {
         let a1 = j + 1;
 
         if a.len() % a1 == 0 {
@@ -137,9 +140,10 @@ fn main() {
             list.insert(liste.clone());
 
             if list.len() == 1 {
-                println!("yey");
+                
+                println!("fuck");
+                break 'fucked;
             }
         }
     }
-    println!("{}", sum);
 }
