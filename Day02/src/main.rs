@@ -4,7 +4,7 @@ use std::{
 };
 
 fn main() {
-    let input = read_to_string("demo.txt").unwrap();
+    let input = read_to_string("input.txt").unwrap();
 
     let liste: Vec<Vec<u64>> = input
         .split(',')
@@ -85,7 +85,6 @@ fn main() {
 
                     if list.len() == 1 {
                         sum += i;
-                        println!("{}", i);
                         break 'fucked;
                     }
                 }
