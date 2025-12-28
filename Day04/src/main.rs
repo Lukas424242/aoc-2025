@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fs::read_to_string};
 
 fn main() {
-    let input = read_to_string("demo.txt").unwrap();
+    let input = read_to_string("input.txt").unwrap();
     
     let feld:Vec<Vec<char>> = input.lines().map(|x| x.trim().chars().collect()).collect();
     println!("");
@@ -13,7 +13,7 @@ fn main() {
 
         for j in 0..feld[i].len(){
 
-            if feld[i][j] =='.'{
+            if feld[i][j] == '@'{
                 sum+=checkrolls(j, i, &feld);
                 println!("y {} x {}", j,i);
 
@@ -41,20 +41,17 @@ fn main() {
 
         if 0<= xn && 0<= yn && yn < map.len() as i32 && xn < map[0].len() as i32  {
 
-            if map[yn as usize][xn as usize] != '@' {
+            if map[yn as usize][xn as usize] == '@' {
                 sum+=1;
                 
             }
             
         }
-        else {
-            sum+=1;
-        }
+        
     }
 
-    if sum <= 6{
+    if sum <4{
         return 1;
-        
     }
     else {
         return 0;
