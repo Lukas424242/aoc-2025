@@ -23,29 +23,30 @@ fn main() {
 
     let mut removed = 0;
     loop {
-        let mut sum = 0;
-        let mut koordinaten: Vec<[usize; 2]> = Vec::new();
+
+        let mut sum=0;
+        let mut koordinaten:Vec<[usize;2]> = Vec::new();
         for i in 0..feld.len() {
             for j in 0..feld[i].len() {
                 if feld[i][j] == '@' {
                     sum += checkrolls(j, i, &feld);
-
-                    if sum == 1 {
-                        koordinaten.push([i, j]);
-                    }
+                    koordinaten.push([i,j]);
                 }
             }
         }
 
-        for i in 0..koordinaten.len() {
+        for i in 0..koordinaten.len(){
             let pos = koordinaten[i];
-            feld[pos[0]][pos[1]] = '.';
+            feld[pos[0]][pos[1]] ='.';
         }
 
-        if sum == 0 {
+
+
+        if sum ==0{
             break;
-        } else {
-            removed += sum;
+        }
+        else {
+            removed+=sum;
         }
     }
     println!("{}", removed);
