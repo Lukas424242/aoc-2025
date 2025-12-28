@@ -35,17 +35,33 @@ fn main() {
     }
     println!("{}", sum);
 
-    let mut list:HashSet<usize> = HashSet::new();
+    // Part 2
+    let mut nrange:Vec<[usize;2]> = Vec::new();
+    nrange.push(nrange[0]);
 
-    for i in 0..ranges.len(){
-        println!("{}", i/ranges.len());
+    // keine Überschneidungen mehr, dann normal rechnen
+    for i in 1..ranges.len(){
         let l = ranges[i][0];
-        let r = ranges[i][1] +1;
+        let r = ranges[i][1];
 
-        for m in l..r{
-            list.insert(m);
+        for j in 0..nrange.len(){
+            let prev:i32 = j as i32 - 1;
+            let next:i32 = j as i32 + 1;
+
+            if 0<=prev && next <= nrange.len() as i32 -1  {
+                
+            }
+            
+
+
+
         }
-
+        
     }
-    println!("{}", list.len());
 }
+/* 
+1. Fall, neue range
+2. Fall, fällt komplett in eine range rein
+3. Fall, überschneidet sich
+ordnung muss beibehalten werden
+*/
