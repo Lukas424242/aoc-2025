@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fs::read_to_string};
 
 fn main() {
-    let input = read_to_string("demo.txt").unwrap();
+    let input = read_to_string("input.txt").unwrap();
 
     let mut feld: Vec<Vec<char>> = input.lines().map(|x| x.trim().chars().collect()).collect();
     println!("");
@@ -29,8 +29,11 @@ fn main() {
         for i in 0..feld.len() {
             for j in 0..feld[i].len() {
                 if feld[i][j] == '@' {
-                    sum += checkrolls(j, i, &feld);
+                    let a = checkrolls(j, i, &feld);
+                    sum+=a;
+                    if a == 1{
                     koordinaten.push([i,j]);
+                    }
                 }
             }
         }
