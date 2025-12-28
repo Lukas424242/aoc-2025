@@ -1,9 +1,9 @@
 use std::{collections::HashMap, fs::read_to_string};
 
 fn main() {
-    let input = read_to_string("input.txt").unwrap();
+    let input = read_to_string("demo.txt").unwrap();
 
-    let feld: Vec<Vec<char>> = input.lines().map(|x| x.trim().chars().collect()).collect();
+    let mut feld: Vec<Vec<char>> = input.lines().map(|x| x.trim().chars().collect()).collect();
     println!("");
 
     // Part 1
@@ -13,7 +13,6 @@ fn main() {
         for j in 0..feld[i].len() {
             if feld[i][j] == '@' {
                 sum += checkrolls(j, i, &feld);
-                println!("y {} x {}", j, i);
             }
         }
     }
@@ -24,17 +23,32 @@ fn main() {
 
     let mut removed = 0;
     loop {
-
-        let mut sum=0;
-        let mut koordinaten:Vec<[usize;2]> = Vec::new();
+        let mut sum = 0;
+        let mut koordinaten: Vec<[usize; 2]> = Vec::new();
         for i in 0..feld.len() {
             for j in 0..feld[i].len() {
                 if feld[i][j] == '@' {
                     sum += checkrolls(j, i, &feld);
+
+                    if sum == 1 {
+                        koordinaten.push([i, j]);
+                    }
                 }
             }
         }
+
+        for i in 0..koordinaten.len() {
+            let pos = koordinaten[i];
+            feld[pos[0]][pos[1]] = '.';
+        }
+
+        if sum == 0 {
+            break;
+        } else {
+            removed += sum;
+        }
     }
+    println!("{}", removed);
 }
 
 fn checkrolls(posx: usize, posy: usize, map: &Vec<Vec<char>>) -> i32 {
