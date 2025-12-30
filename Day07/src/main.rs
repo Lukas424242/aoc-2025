@@ -1,10 +1,10 @@
 use std::{
     collections::{HashMap, HashSet},
-    fs::read_to_string,
+    fs::read_to_string, mem,
 };
 
 fn main() {
-    let input = read_to_string("demo.txt").unwrap();
+    let input = read_to_string("input.txt").unwrap();
     let feld: Vec<Vec<char>> = input.lines().map(|x| x.trim().chars().collect()).collect();
 
     // egal immer ein 1 Beam
@@ -21,9 +21,9 @@ fn main() {
     tracer(posx, 1, &feld, &mut list);
     println!("{}", list.len());
 
-    let mut sum=0;
-    tracercounter(posx, 1, &feld, &mut sum);
-    println!("{}", sum);
+    let mut memo:HashMap<(usize,usize), usize>= HashMap::new();
+    tracercounter(posx, 1, &feld, &mut memo);
+    println!("{}", memo.get(&(2,posx)).unwrap());
 }
 
 fn tracer(posx: usize, posy: usize, feld: &Vec<Vec<char>>, liste: &mut HashSet<(usize, usize)>) {
@@ -43,22 +43,48 @@ fn tracer(posx: usize, posy: usize, feld: &Vec<Vec<char>>, liste: &mut HashSet<(
     }
 }
 
-fn tracercounter(posx: usize, posy: usize, feld: &Vec<Vec<char>>, sum: &mut usize) {
+fn tracercounter(posx: usize, posy: usize, feld: &Vec<Vec<char>>, memo:&mut HashMap<(usize,usize), usize>) -> usize{
 
-    if posy == feld.len()-1 {
-        *sum+=1;
-        return;
-    } else {
+    if let Some(x) = memo.get(&(posy,posx))  {
+        return *x;
+        
+    }
+    else {
+
+
+        if posy == feld.len()-1{
+            return 1;
+        }
+
         if posx < feld[0].len() && posy < feld.len() {
+
             if feld[posy][posx] == '^' {
 
-                tracercounter(posx - 1, posy, feld, sum);
-                tracercounter(posx + 1, posy, feld, sum);
+                let a = tracercounter(posx - 1, posy, feld, memo);
+                let b = tracercounter(posx + 1, posy, feld, memo);
+
+                if let Some(x) = memo.get_mut(&(posy, posx)) {
+                    *x+= a +b;
+                    return *x;
+                    
+                }
+                else {
+                    memo.insert((posy, posx), a+b);
+                    return a+b;
+                }
+
             } else {
-                tracercounter(posx, posy + 1, feld, sum);
+                return tracercounter(posx, posy + 1, feld, memo);
             }
+
         }
+        else {
+            unreachable!("fucked");
+        }
+        
+        
     }
+    
 }
 // ich weiß nicht warum es funktioniert, aber es funktioniert
 // komisch dass es net mit der sum funktioniert
