@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fs::read_to_string};
 
 fn main() {
-    let input = read_to_string("demo.txt").unwrap();
+    let input = read_to_string("input.txt").unwrap();
 
     let mut daten: Vec<Vec<String>> = input
         .lines()
@@ -51,7 +51,7 @@ fn main() {
 
     let mut zeichen = operationen.len() - 1;
 
-    let mut liste: Vec<Vec<usize>> = Vec::new();
+    let mut liste: Vec<Vec<char>> = Vec::new();
 
     let mut sum: usize = 0;
     for i in (0..d2[0].len()).rev() {
@@ -64,14 +64,15 @@ fn main() {
                 let mut a = 1;
                 let mut sum1 = 0;
                 for j in (0..h.len()).rev() {
-                    sum1 += h[j] * a;
-
-                    if h[j]!=0{
-                    a = a * 10;
-
+                    if h[j]!='X' {                        
+                        sum1+= h[j].to_digit(10).unwrap() as usize  *a;
+                        a = a*10; 
                     }
+
                 }
+                
                 zahlen.push(sum1);
+            
             }
 
             let mut sump=0;
@@ -92,21 +93,60 @@ fn main() {
 
             println!("");
 
+            if i!=0{
             zeichen -= 1;
+        
+            }
+    
         } else {
-            let mut zahlen: Vec<usize> = Vec::new();
+            let mut zahlen: Vec<char> = Vec::new();
 
             for l in 0..d2.len() {
                 if d2[l][i] == ' ' {
-                    zahlen.push(0);
+                    zahlen.push('X');
                 } else {
-                    let zahl = d2[l][i].to_digit(10).unwrap() as usize;
-                    zahlen.push(zahl);
+                    println!("{}",d2[l][i] );
+                    zahlen.push(d2[l][i]);
                 }
             }
 
             liste.push(zahlen);
         }
+    }
+
+    if liste.len() !=0{
+        let mut zahlen: Vec<usize> = Vec::new();
+            for k in 0..liste.len() {
+                let h = &liste[k];
+
+                let mut a = 1;
+                let mut sum1 = 0;
+                for j in (0..h.len()).rev() {
+                    if h[j]!='X' {                        
+                        sum1+= h[j].to_digit(10).unwrap() as usize  *a;
+                        a = a*10; 
+                    }
+
+                }
+                
+                zahlen.push(sum1);
+            
+            }
+
+            let mut sump=0;
+            match operationen[zeichen].as_str() {
+                "+" => {
+                     sump = zahlen.iter().sum();
+                    sum += sump;
+                }
+                "*" => {
+                     sump = zahlen.iter().product();
+                    sum += sump;
+                }
+                _ => {
+                    unreachable!("fuck");
+                }
+            }
     }
 
     println!("{}", sum);
