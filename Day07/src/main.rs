@@ -4,7 +4,7 @@ use std::{
 };
 
 fn main() {
-    let input = read_to_string("input.txt").unwrap();
+    let input = read_to_string("demo.txt").unwrap();
     let feld: Vec<Vec<char>> = input.lines().map(|x| x.trim().chars().collect()).collect();
 
     // egal immer ein 1 Beam
@@ -43,15 +43,8 @@ fn tracer(posx: usize, posy: usize, feld: &Vec<Vec<char>>, liste: &mut HashSet<(
     }
 }
 
-fn tracercounter(posx: usize, posy: usize, feld: &Vec<Vec<char>>, sum: &mut usize, memo: &mut HashMap<(usize,usize), usize>) -> usize {
+fn tracercounter(posx: usize, posy: usize, feld: &Vec<Vec<char>>, sum: &mut usize) {
 
-    if let Some(x) =  memo.get(&(posy, posx)) {
-        return *x;
-        
-    }
-    else {
-        
-    
     if posy == feld.len()-1 {
         *sum+=1;
         return;
@@ -66,7 +59,6 @@ fn tracercounter(posx: usize, posy: usize, feld: &Vec<Vec<char>>, sum: &mut usiz
             }
         }
     }
-}
 }
 // ich weiß nicht warum es funktioniert, aber es funktioniert
 // komisch dass es net mit der sum funktioniert
