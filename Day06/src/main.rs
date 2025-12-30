@@ -53,68 +53,63 @@ fn main() {
 
     let mut liste: Vec<Vec<usize>> = Vec::new();
 
-    let mut sump: usize=0;
+    let mut sum: usize = 0;
     for i in (0..d2[0].len()).rev() {
+
         if iswhite(i, &d2) {
+            let mut zahlen: Vec<usize> = Vec::new();
+            for k in 0..liste.len() {
+                let h = &liste[k];
 
-            
-            match operationen[zeichen].as_str(){
-                "+"=>{
+                let mut a = 1;
+                let mut sum1 = 0;
+                for j in (0..h.len()).rev() {
+                    sum1 += h[j] * a;
 
-                    for k in 0..liste.len(){
-                        let l: &Vec<usize> = &liste[k];
-                        sump+= l.iter().sum::<usize>();
+                    if h[j]!=0{
+                    a = a * 10;
+
                     }
-                    liste.clear();
-
-
-                },
-                "*"=>{
-                    for k in 0..liste.len(){
-                        let l: &Vec<usize> = &liste[k];
-                        sump+= l.iter().product::<usize>();
-                    }
-                    liste.clear();
-
-
-                },
-                _=> unreachable!("uck")
+                }
+                zahlen.push(sum1);
             }
+
+            let mut sump=0;
+            match operationen[zeichen].as_str() {
+                "+" => {
+                     sump = zahlen.iter().sum();
+                    sum += sump;
+                }
+                "*" => {
+                     sump = zahlen.iter().product();
+                    sum += sump;
+                }
+                _ => {
+                    unreachable!("fuck");
+                }
+            }
+            liste.clear();
+
+            println!("");
+
             zeichen -= 1;
-             
         } else {
             let mut zahlen: Vec<usize> = Vec::new();
 
-            match operationen[zeichen].as_str() {
-                "+" => {
-                    for l in 0..d2.len() {
-                        if d2[l][i] == ' ' {
-                            zahlen.push(0);
-                        } else {
-                            let zahl = d2[l][i].to_digit(10).unwrap() as usize;
-                            zahlen.push(zahl);
-                        }
-                    }
+            for l in 0..d2.len() {
+                if d2[l][i] == ' ' {
+                    zahlen.push(0);
+                } else {
+                    let zahl = d2[l][i].to_digit(10).unwrap() as usize;
+                    zahlen.push(zahl);
                 }
-                "*" => {
-                    for l in 0..d2.len() {
-                        if d2[l][i] == ' ' {
-                            zahlen.push(1);
-                        } else {
-                            let zahl = d2[l][i].to_digit(10).unwrap() as usize;
-                            zahlen.push(zahl);
-                        }
-                    }
-                }
-
-                _ => unreachable!("fucked"),
             }
 
             liste.push(zahlen);
         }
     }
 
-    println!("{}", sump);
+    println!("{}", sum);
 }
 
 fn iswhite(spalte: usize, daten: &Vec<Vec<char>>) -> bool {
