@@ -20,4 +20,12 @@ fn main() {
             }
         }
     }
-   }
+
+distances.sort_by(|a, b| a[2].total_cmp(&b[2]));
+}
+
+
+
+// Just one small line vibecoded because i forgot a lot during the monts and had a lot to do and thinkabout
+// that is even more important then Rust, can you believe that
+// So, first commit in this year, hoping there will be more than last year.
